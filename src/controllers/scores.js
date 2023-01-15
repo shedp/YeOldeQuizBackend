@@ -13,7 +13,7 @@ async function showByUser (req, res){
     try{
         const userToken = req.headers["authorization"]
 		const sesh = await Session.findBySessionToken(userToken)
-        const scores = await Score.findById(sesh.user_id)
+        const scores = await Score.findByUserId(sesh.user_id)
         res.status(200).json(scores)
     } catch (err){
         res.status(402).json(err)
