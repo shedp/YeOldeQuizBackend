@@ -15,7 +15,7 @@ async function index(req, res){
 
 async function show(req, res){
     try{
-        const games = await Game.findById(req.params.id)
+        const games = await Game.findByGameId(req.params.id)
         res.status(200).json(games)
     }catch(err){
         res.status(404).json(err)
