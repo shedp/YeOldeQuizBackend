@@ -1,6 +1,6 @@
-const Game = require("../models/Games")
-const User = require("../models/User")
-const Session = require("../models/Session")
+const Game = require("../models/Games");
+const User = require("../models/User");
+const Session = require("../models/Session");
 
 async function index(req, res) {
 	try {
