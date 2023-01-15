@@ -3,7 +3,7 @@ const Score = require("../models/Scores")
 async function index(req, res) {
 	try {
 		const scores = await Score.all
-		res.status(200).json(scores)
+		res.status(200).json(habitdates)
 	} catch (err) {
 		res.status(500).send(err)
 	}
