@@ -25,6 +25,7 @@ CREATE TABLE games(
     creator_id INT NOT NULL,
     level INT NOT NULL,
     join_code VARCHAR NOT NULL,
+    active BOOLEAN DEFAULT TRUE NOT NULL,
     PRIMARY KEY (game_id),
     FOREIGN KEY (creator_id) REFERENCES users(user_id)
 );
@@ -32,8 +33,9 @@ CREATE TABLE games(
 CREATE TABLE rounds(
     round_id INT GENERATED ALWAYS AS IDENTITY,
     topic VARCHAR NOT NULL,
-    PRIMARY KEY(habitdate_id),
-    FOREIGN KEY(game_id) REFERENCES games(game_id)
+    game_id INT NOT NULL,
+    PRIMARY KEY (round_id),
+    FOREIGN KEY (game_id) REFERENCES games(game_id)
 );
 
 CREATE TABLE scores(
@@ -45,5 +47,5 @@ CREATE TABLE scores(
     PRIMARY KEY(score_id),
     FOREIGN KEY(round_id) REFERENCES rounds(round_id),
     FOREIGN KEY(game_id) REFERENCES games(game_id),
-    FOREIGN KEY(user_id) REFERENCES users(user_id),
+    FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
