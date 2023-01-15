@@ -9,4 +9,5 @@ scoresRouter.post("/", scoresController.create) // creates scores for a game
 scoresRouter.put("/:id", scoresController.update) // update a score value
 scoresRouter.delete("/:id", scoresController.destroy) // delete scores if a user decides not to create the game
 
+
 module.exports = scoresRouter
