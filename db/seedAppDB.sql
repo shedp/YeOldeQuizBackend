@@ -25,6 +25,7 @@ CREATE TABLE games(
     creator_id INT NOT NULL,
     level INT NOT NULL,
     join_code VARCHAR NOT NULL,
+    active BOOLEAN DEFAULT TRUE NOT NULL,
     PRIMARY KEY (game_id),
     FOREIGN KEY (creator_id) REFERENCES users(user_id)
 );
