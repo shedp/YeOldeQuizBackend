@@ -1,11 +1,11 @@
-const express = require("express")
-const scoresRouter = express.Router()
-const scoresController = require("../controllers/Scores")
-const authenticator = require("../middleware/auth")
+const express = require("express");
+const gamesRouter = express.Router();
+const gamesController = require("../controllers/Games");
+const authenticator = require("../middleware/auth");
 
-scoresRouter.get("/",authenticator, scoresController.index)
-scoresRouter.get("/:id", authenticator,scoresController.show)
-scoresRouter.post("/", authenticator,scoresController.create)
-scoresRouter.delete("/:id", authenticator, scoresController.destroy)
+gamesRouter.get("/",authenticator, gamesController.index)
+gamesRouter.get("/:id", authenticator,gamesController.show)
+gamesRouter.post("/", authenticator,gamesController.create)
+gamesRouter.delete("/:id", authenticator, gamesController.destroy)
 
-module.exports = scoresRouter
+module.exports = gamesRouter
