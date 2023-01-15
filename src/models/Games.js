@@ -1,5 +1,6 @@
 const db = require("../db/init")
 const Round = require("./Rounds")
+const Score = require("./Scores")
 
 class Game {
 	constructor(data) {
@@ -68,16 +69,10 @@ class Game {
 	destroy() {
 		return new Promise(async (resolve, reject) => {
 			try {
-				// delete dates with the habits
-				const result = await db.query(
-					"DELETE FROM scores WHERE game_id = $1",
-					[this.game_id]
-				)
-
-				const result1 = await db.query(
-					"DELETE FROM rounds WHERE game_id = $1",
-					[this.game_id]
-				)
+				// delete scores
+				const result = await Score.destroy()
+				// delete rounds
+				const result1 = await Round.destroy()
 
 				resolve("Game was destroyed")
 			} catch (err) {
@@ -86,6 +81,7 @@ class Game {
 		})
 	}
 
+	//create rounds after creating game
 	async createRounds(topic) {
         return new Promise(async (resolve, reject) => {
             try {

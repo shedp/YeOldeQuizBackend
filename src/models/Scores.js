@@ -55,6 +55,22 @@ module.exports = class Score {
 		})
 	}
 
+	//get scores by game_id
+	static findByGameId(id){
+		return new Promise(async (resolve, reject) => {
+			try {
+				let scoreData = await db.query(
+					`SELECT * FROM scores WHERE game_id = $1`,
+					[id]
+				)
+				let target = scoreData.rows.map(s => new Scores(s))
+				resolve(target)
+			} catch (err) {
+				reject("Scores not found")
+			}
+		})
+	}
+
 	// create new score
 	static create(round_id, game_id, user_id) {
 		return new Promise(async (resolve, reject) => {
@@ -83,6 +99,21 @@ module.exports = class Score {
 				resolve(habit)
 			} catch (err) {
 				reject("Could not update score")
+			}
+		})
+	}
+
+	//destroy
+	destroy() {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const result = await db.query(
+					"DELETE FROM scores WHERE round_id = $1",
+					[this.round_id]
+				)
+				resolve("score was destroyed")
+			} catch (err) {
+				reject("Could not destroy score")
 			}
 		})
 	}

@@ -71,6 +71,7 @@ class Round {
 		})
 	}
 
+	//create scores after creating rounds
 	async createScores() {
         return new Promise(async (resolve, reject) => {
             try {
@@ -82,6 +83,20 @@ class Round {
             }
         })
     }
+
+	destroy() {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const result = await db.query(
+					"DELETE FROM rounds WHERE game_id = $1",
+					[this.game_id]
+				)
+				resolve("round was destroyed")
+			} catch (err) {
+				reject("Could not destroy round")
+			}
+		})
+	}
 	
 }
 
