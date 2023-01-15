@@ -60,3 +60,4 @@ async function update(req, res){
 }
 
 module.exports = {index, showByUser, showByGame, create, destroy, update}
+
