@@ -4,7 +4,9 @@ const Session = require("../models/Session")
 
 async function index(req, res){
     try{
-        const games = await Game.all()
+        const userToken = req.headers["authorization"]
+        const sesh = await Session.findBySessionToken(userToken)
+        const games = await Game.all(sesh)
         res.status(200).json(games)
     }catch(err){
         res.status(500).json(err)
@@ -13,9 +15,7 @@ async function index(req, res){
 
 async function show(req, res){
     try{
-        const userToken = req.headers["authorization"]
-        const sesh = await Session.findBySessionToken(userToken)
-        const games = await Game.findAllById(sesh.user_id)
+        const games = await Game.findById(req.params.id)
         res.status(200).json(games)
     }catch(err){
         res.status(404).json(err)
