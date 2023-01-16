@@ -1,6 +1,7 @@
 const db = require("../db/init")
 const Round = require("./Round")
 const Score = require("./Score")
+const randomString = require("randomstring")
 
 class Game {
 	constructor(data) {
@@ -52,7 +53,7 @@ class Game {
 					level,
 					topics
 				} = gameData
-				const join_code = "test"; // find npm package to create a code
+				const join_code = randomString.generate({length: 8, capitalization: "uppercase"}); // find npm package to create a code
 				const result = await db.query(
 					"INSERT INTO games (creator_id, level, join_code) VALUES ($1, $2, $3) RETURNING *;",
 					[user_id, level, join_code]
@@ -66,6 +67,17 @@ class Game {
             }
         })
     }
+
+	static async update(id, activeStatus){
+		return new Promise(async(resolve, reject) => {
+			try{
+				const result = await db.query("UPDATE games SET active = $1 WHERE game_id = $2 RETURNING *", [activeStatus, id])
+				resolve(result.rows[0])
+			} catch (err){
+				reject("could not update game")
+			}
+		})
+	}
 
 	//destroy game
 	destroy() {

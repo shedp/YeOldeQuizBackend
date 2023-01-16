@@ -44,4 +44,14 @@ async function destroy(req, res){
     }
 }
 
-module.exports = {index, show, create, destroy}
+async function update(req, res){
+    try{
+        const game = await Game.update(req.params.id, req.body.active)
+        res.status(200).json(game);
+    } catch(err){
+        console.log(err)
+        res.status(417).json(err)
+    }
+}
+
+module.exports = {index, show, create, destroy, update}

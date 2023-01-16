@@ -7,6 +7,7 @@ gamesRouter.get("/", gamesController.index) // show all created games
 gamesRouter.get("/:id", gamesController.show) // show all games of a user
 gamesRouter.post("/", gamesController.create) // create a game
 gamesRouter.delete("/:id", gamesController.destroy) // delete a game when a user decides not to create a game 
+gamesRouter.put("/:id", gamesController.update) // edit the active status of a game
 
 
 module.exports = gamesRouter
