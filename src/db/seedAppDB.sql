@@ -41,7 +41,7 @@ CREATE TABLE rounds(
 
 CREATE TABLE scores(
     score_id INT GENERATED ALWAYS AS IDENTITY,
-    score INT NOT NULL,
+    score INT DEFAULT 0 NOT NULL,
     round_id INT NOT NULL,
     game_id INT NOT NULL,
     user_id INT NOT NULL,

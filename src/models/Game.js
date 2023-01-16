@@ -1,6 +1,6 @@
 const db = require("../db/init")
-const Round = require("./Rounds")
-const Score = require("./Scores")
+const Round = require("./Round")
+const Score = require("./Score")
 
 class Game {
 	constructor(data) {
@@ -15,7 +15,7 @@ class Game {
 	static async all(id) {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const response = await db.query("SELECT * FROM games WHERE user_id = $1", [id])
+				const response = await db.query("SELECT * FROM games WHERE user_id = $1;", [id])
 				const games = response.rows.map((g) => new Game(g))
 				resolve(games)
 			} catch (err) {
@@ -29,10 +29,11 @@ class Game {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let gameData = await db.query(
-					"SELECT * FROM games WHERE games_id = $1;",
+					"SELECT * FROM games WHERE game_id = $1;",
 					[id] 
 				)
 				let game = new Game(gameData.rows[0])
+				
 				resolve(game)
 			} catch (err) {
 				reject("Game not found")
@@ -50,13 +51,13 @@ class Game {
 					level,
 					topics
 				} = gameData
-				const join_code = ""; // find npm package to create a code
+				const join_code = "test"; // find npm package to create a code
 				const result = await db.query(
-					"INSERT INTO games (user_id, level, join_code) VALUES ($1, $2, $3) RETURNING *",
+					"INSERT INTO games (creator_id, level, join_code) VALUES ($1, $2, $3) RETURNING *;",
 					[user_id, level, join_code]
 				)
 				let newGame = new Game(result.rows[0])
-				await Promise.all(topics.map(topic => this.createRounds(topic)))
+				await Promise.all(topics.map(topic => newGame.createRounds(topic, user_id)))
                 resolve(newGame)
             } catch (err) {
                 reject("Could not create game")
@@ -70,22 +71,25 @@ class Game {
 		return new Promise(async (resolve, reject) => {
 			try {
 				// delete scores
-				const result = await Score.destroy()
+				const result = await db.query("DELETE FROM scores WHERE game_id IN ($1)", [this.game_id])
 				// delete rounds
-				const result1 = await Round.destroy()
+				const result1 = await db.query("DELETE FROM rounds WHERE game_id IN ($1)", [this.game_id])
+
+				const result3 = await db.query("DELETE FROM games WHERE game_id = $1", [this.game_id])
 
 				resolve("Game was destroyed")
 			} catch (err) {
+				console.log(err)
 				reject("Could not destroy Game")
 			}
 		})
 	}
 
 	//create rounds after creating game
-	async createRounds(topic) {
+	async createRounds(topic, user_id) {
         return new Promise(async (resolve, reject) => {
             try {
-                await Round.create(this.game_id, topic)
+                await Round.create(user_id, this.game_id, topic)
                 resolve("rounds added")
             } catch (err) {
                 reject("Could not add rounds")

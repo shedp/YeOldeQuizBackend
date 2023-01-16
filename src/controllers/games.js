@@ -35,7 +35,8 @@ async function create(req, res){
 
 async function destroy(req, res){
     try{
-        const game = await Game.findById(req.params.id)
+        const game = await Game.findByGameId(req.params.id)
+        
         const resp = await game.destroy()
         res.status(204).end()
     }catch(err){

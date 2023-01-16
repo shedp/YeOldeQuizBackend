@@ -1,7 +1,7 @@
 const db = require("../db/init")
 
 module.exports = class Score {
-	constructor() {
+	constructor(data) {
 		this.score_id = data.score_id
 		this.score = data.score
 		this.round_id = data.round_id
@@ -13,7 +13,7 @@ module.exports = class Score {
 	static get all() {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const response = await db.query("SELECT * FROM scores")
+				const response = await db.query("SELECT * FROM scores;")
 				const scores = response.rows.map((s) => new Score(s))
 				resolve(scores)
 			} catch (err) {
@@ -27,7 +27,7 @@ module.exports = class Score {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let scoreData = await db.query(
-					`SELECT * FROM scores WHERE user_id = $1`,
+					`SELECT * FROM scores WHERE user_id = $1;`,
 					[id]
 				)
 				let target = scoreData.rows.map(s => new Score(s))
@@ -43,7 +43,7 @@ module.exports = class Score {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let scoreData = await db.query(
-					`SELECT * FROM scores WHERE game_id = $1`,
+					`SELECT * FROM scores WHERE game_id = $1;`,
 					[id]
 				)
 				let target = scoreData.rows.map(s => new Score(s))
@@ -55,16 +55,20 @@ module.exports = class Score {
 	}
 
 	// create new score
-	static create(round_id, game_id, user_id) {
+	static create(game_id, round_id, user_id) {
 		return new Promise(async (resolve, reject) => {
 			try {
+				// console.log(round_id, game_id, user_id)
 				let scoreData = await db.query(
-					`INSERT INTO scores (round_id, game_id, user_id) VALUES ($1, $2, $3) RETURNING *`,
-					[round_id, game_id, user_id]
+					`INSERT INTO scores (game_id, round_id, user_id) VALUES ($1, $2, $3) RETURNING *;`,
+					[game_id, round_id, user_id]
 				)
-				let newScore = new Scores(scoreData.rows[0])
+				// console.log(scoreData.rows[0])
+				let newScore = new Score(scoreData.rows[0])
+				// console.log("success")
 				resolve(newScore)
 			} catch (err) {
+				console.log(err)
 				reject("Score could not be created")
 			}
 		})
@@ -78,7 +82,7 @@ module.exports = class Score {
 					"UPDATE scores SET score = $1 RETURNING score_id;",
 					[score]
 				)
-				let score = await scores.findById(result.rows[0].score_id)
+				let score = await Score.findById(result.rows[0].score_id)
 				resolve(habit)
 			} catch (err) {
 				reject("Could not update score")
@@ -90,8 +94,9 @@ module.exports = class Score {
 	destroy() {
 		return new Promise(async (resolve, reject) => {
 			try {
+				console.log(this.game_id)
 				const result = await db.query(
-					"DELETE FROM scores WHERE game_id = $1",
+					"DELETE FROM scores WHERE game_id IN ($1)",
 					[this.game_id]
 				)
 				resolve("score was destroyed")

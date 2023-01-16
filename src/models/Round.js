@@ -1,5 +1,5 @@
 const db = require("../db/init")
-const Score = require("./Scores")
+const Score = require("./Score")
 
 class Round {
 	constructor(data) {
@@ -13,7 +13,7 @@ class Round {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let roundData = await db.query(
-					`SELECT * FROM rounds WHERE game_id = $1`,
+					`SELECT * FROM rounds WHERE game_id = $1;`,
 					[id]
 				)
 				let target = roundData.rows.map(r => new Round(r))
@@ -25,15 +25,15 @@ class Round {
 	}
 
 	// create rounds
-	static async create(id, topic) {
+	static async create(user_id, id, topic) {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const result = await db.query(
-					"INSERT INTO rounds (game_id, topic) VALUES ($1, $2) RETURNING *",
+					"INSERT INTO rounds (game_id, topic) VALUES ($1, $2) RETURNING *;",
 					[id, topic]
 				)
 				let newRound = new Round(result.rows[0])
-				await newRound.createScores()
+				await newRound.createScores(user_id)
 				resolve(newRound)
 			} catch (err) {
 				reject("Could not create round")
@@ -43,10 +43,11 @@ class Round {
 	}
 
 	//create scores after creating rounds
-	static async createScores() {
+	async createScores(user_id) {
         return new Promise(async (resolve, reject) => {
             try {
-                await Score.create(this.game_id, this.round_id, this.user_id)
+                await Score.create(this.game_id, this.round_id, user_id)
+				
                 resolve("scores added")
             } catch (err) {
                 reject("Could not add scores")
@@ -59,7 +60,7 @@ class Round {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const result = await db.query(
-					"DELETE FROM rounds WHERE game_id = $1",
+					"DELETE FROM rounds WHERE game_id IN ($1);",
 					[this.game_id]
 				)
 				resolve("round was destroyed")

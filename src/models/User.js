@@ -2,10 +2,11 @@ const db = require('../db/init');
 
 class User {
 
-    constructor({ user_id, username, user_password }) {
+    constructor({ user_id, username, user_password, highest_score }) {
         this.id = user_id;
         this.title = username;
         this.password = user_password;
+        this.highest_score = highest_score;
     }
 
     static async findById(id) {
