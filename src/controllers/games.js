@@ -6,7 +6,7 @@ async function index(req, res){
     try{
         const userToken = req.headers["authorization"]
         const sesh = await Session.findBySessionToken(userToken)
-        const games = await Game.all(sesh)
+        const games = await Game.all(sesh.user_id)
         res.status(200).json(games)
     }catch(err){
         res.status(500).json(err)

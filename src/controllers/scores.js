@@ -1,4 +1,5 @@
 const Score = require("../models/Score");
+const Session = require("../models/Session")
 
 async function index (req, res) {
     try{
@@ -13,9 +14,11 @@ async function showByUser (req, res){
     try{
         const userToken = req.headers["authorization"]
 		const sesh = await Session.findBySessionToken(userToken)
+        
         const scores = await Score.findByUserId(sesh.user_id)
         res.status(200).json(scores)
     } catch (err){
+        console.log(err)
         res.status(402).json(err)
     }
 }
@@ -33,7 +36,9 @@ async function create(req, res){
     try{
         const userToken = req.headers["authorization"]
 		const sesh = await Session.findBySessionToken(userToken)
-        const newScore = await Score.create({...req.body, user_id: sesh.user_id})
+        const game_id = req.body.game_id;
+        const round_id = req.body.round_id;
+        const newScore = await Score.create(game_id, round_id, sesh.user_id)
         res.status(201).json(newScore)
     }catch(err){
         res.status(422).json(err)
@@ -52,7 +57,7 @@ async function destroy(req, res){
 
 async function update(req, res){
     try{
-        const score = await Score.update(req.params.id, req.body)
+        const score = await Score.update(req.body.score, req.params.id)
         res.status(200).json(score)
     } catch(err){
         res.status(417).json(err)

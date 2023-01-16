@@ -15,10 +15,11 @@ class Game {
 	static async all(id) {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const response = await db.query("SELECT * FROM games WHERE user_id = $1;", [id])
+				const response = await db.query("SELECT * FROM games WHERE creator_id = $1;", [id])
 				const games = response.rows.map((g) => new Game(g))
 				resolve(games)
 			} catch (err) {
+				console.log(err)
 				reject("games not found")
 			}
 		})

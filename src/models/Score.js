@@ -33,6 +33,7 @@ module.exports = class Score {
 				let target = scoreData.rows.map(s => new Score(s))
 				resolve(target)
 			} catch (err) {
+				console.log(err)
 				reject("Scores not found")
 			}
 		})
@@ -58,7 +59,7 @@ module.exports = class Score {
 	static create(game_id, round_id, user_id) {
 		return new Promise(async (resolve, reject) => {
 			try {
-				// console.log(round_id, game_id, user_id)
+				console.log(game_id, round_id, user_id)
 				let scoreData = await db.query(
 					`INSERT INTO scores (game_id, round_id, user_id) VALUES ($1, $2, $3) RETURNING *;`,
 					[game_id, round_id, user_id]
@@ -74,17 +75,31 @@ module.exports = class Score {
 		})
 	}
 
+	static findByRoundId(round_id){
+		return new Promise(async (resolve, reject) => {
+			try{
+				let scoreData = await db.query(`SELECT * FROM scores WHERE round_id = $1;`, [round_id])
+				let foundScore = new Score(scoreData.rows[0])
+				resolve(foundScore);
+			}catch(err){
+				reject("could not find a score with both that game and round id")
+			}
+		})
+	}
+
 	//update score
-	static update(id, score) {
+	static update(score, id) {
 		return new Promise(async (resolve, reject) => {
 			try {
+				
 				let result = await db.query(
-					"UPDATE scores SET score = $1 RETURNING score_id;",
-					[score]
+					"UPDATE scores SET score = $1 WHERE round_id = $2 RETURNING *;",
+					[score, id]
 				)
-				let score = await Score.findById(result.rows[0].score_id)
-				resolve(habit)
+				console.log(result.rows[0])
+				resolve(result.rows[0])
 			} catch (err) {
+				console.log(err)
 				reject("Could not update score")
 			}
 		})
