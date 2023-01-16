@@ -1,6 +1,6 @@
 require('dotenv').config();
-const app = require('./app');
+const { server } = require('./app');
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => console.log(`Express now departing from port ${port}`));
+server.listen(port, () => console.log(`Express now departing from port ${port}`));

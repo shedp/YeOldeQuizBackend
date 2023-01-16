@@ -1,20 +1,23 @@
 const express = require('express');
 const cors = require('cors');
-const server = express();
+const { server, app, io} = require("./server_socket")
 
+// Routes
 const userRouter = require('./routers/users')
 const scoresRouter = require('./routers/scores')
 const roundsRouter = require('./routers/rounds')
 const gamesRouter = require('./routers/games')
 
-server.use(cors());
-server.use(express.json())
+app.use(cors());
+app.use(express.json())
 
-server.use('/users', userRouter);
-server.use('/scores', scoresRouter);
-server.use('/rounds', roundsRouter);
-server.use('/games', gamesRouter);
+app.use('/users', userRouter);
+app.use('/scores', scoresRouter);
+app.use('/rounds', roundsRouter);
+app.use('/games', gamesRouter);
 
-server.get('/', (req, res) => res.send('Welcome to the Ye Old Quizz API'))
+app.get('/', (req, res) => res.send('Welcome to the Ye Old Quizz API'))
 
-module.exports = server;
+io.on("connection", (socket) => console.log("Hello"))
+
+module.exports = { server };
