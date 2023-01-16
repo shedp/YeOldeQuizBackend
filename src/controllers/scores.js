@@ -38,6 +38,7 @@ async function create(req, res){
 		const sesh = await Session.findBySessionToken(userToken)
         const game_id = req.body.game_id;
         const round_id = req.body.round_id;
+        
         const newScore = await Score.create(game_id, round_id, sesh.user_id)
         res.status(201).json(newScore)
     }catch(err){
