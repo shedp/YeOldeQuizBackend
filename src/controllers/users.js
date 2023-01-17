@@ -66,10 +66,11 @@ async function login(req, res) {
 
 async function logout(req, res) {
 	try {
-		const session = await Session.findBySessionToken(req.body);
-		const resp = session.destroy();
+		const session = await Session.findBySessionToken(req.body.sessionToken);
+		const resp = session.deleteSession();
 		res.status(204).end();
 	} catch (err) {
+		console.log(err)
 		res.status(404).json({err});
 	}
 	
