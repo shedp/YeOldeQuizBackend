@@ -18,6 +18,8 @@ app.use('/games', gamesRouter);
 
 app.get('/', (req, res) => res.send('Welcome to the Ye Old Quizz API'))
 
-io.on("connection", (socket) => console.log("Hello"))
+io.on("connection", (socket) => console.log(socket.id))
+
+io.on("hello", (socket) => console.log("Hello from create page"))
 
 module.exports = { server };

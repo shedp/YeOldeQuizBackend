@@ -29,6 +29,7 @@ class User {
     static async findByUsername(username) {
         return new Promise (async (resolve, reject) => {
             try {
+                // console.log(username)
                 const response = await db.query("SELECT * FROM users WHERE username = $1", [username]);
                 if (response.rows.length != 1) {
                     throw new Error("Unable to locate user.")

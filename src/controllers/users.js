@@ -37,8 +37,9 @@ async function register(req, res) {
 
 async function login(req, res) {
 	try {
+		// console.log(req.body)
 		const { username, password } = req.body
-
+		
 		// Try and get that user
 		const user = await User.findByUsername(username)
 
