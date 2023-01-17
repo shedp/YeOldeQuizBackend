@@ -46,6 +46,7 @@ class Game {
 
 	//create game
 	static async create(gameData) {
+		const client = await db.connect()
 		return new Promise(async (resolve, reject) => {
 			try {
 				const {
@@ -58,13 +59,15 @@ class Game {
 					"INSERT INTO games (creator_id, level, join_code) VALUES ($1, $2, $3) RETURNING *;",
 					[user_id, level, join_code]
 				)
-				let newGame = new Game(result.rows[0])
+				let newGame = new Game({...result.rows[0], user_id, topics})
 				await Promise.all(topics.map(topic => newGame.createRounds(topic, user_id)))
                 resolve(newGame)
             } catch (err) {
                 reject("Could not create game")
                 console.log(err)
-            }
+            } finally {
+				client.release();
+			}
         })
     }
 

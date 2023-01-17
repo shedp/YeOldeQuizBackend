@@ -36,6 +36,15 @@ const socketEvents = (socket) => {
             socket.emit('error','couldnt perform leave action');
         }
     })
+
+    socket.on("start-game", ({join_code}) => {
+        try{
+            console.log("Broadcasting to all users that game is starting")
+            socket.to(join_code).emit("game-starting")
+        } catch(err){
+            console.log(err);
+        }
+    })
 }
 
 module.exports = socketEvents
