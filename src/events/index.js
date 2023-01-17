@@ -5,6 +5,8 @@ const socketEvents = (socket) => {
 
     socket.on("disconnect", () => console.log("User has disconnected"))
 
+    socket.on("hello", () => console.log("hello"))
+
     socket.on("create-game", ({join_code, level, topics}) => {
         try{
             console.log(`Lobby created with join code: ${join_code}`)
@@ -13,7 +15,6 @@ const socketEvents = (socket) => {
             console.log(err);
             socket.emit('error','couldnt perform create action');
         }
-        
     })
 
     socket.on("join-game", ({join_code, username}) => {
