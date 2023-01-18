@@ -57,10 +57,19 @@ const socketEvents = (socket) => {
   //     console.log(socketIds);
   //   });
 
-  socket.on("leave-room", ({ join_code, username }) => {
+  socket.on("leave-game", async ({ join_code, username }) => {
     try {
       console.log(`${username} has left the lobby (${join_code})`);
       socket.leave(join_code);
+      const sockets = await io.in(join_code).fetchSockets();
+      const socketIDs = sockets.map((socket) => socket.id);
+
+      io.to(socket.id).emit(
+        "disconnect-user",
+        (socket.id, "User has left the lobby")
+      );
+
+      io.to(join_code).emit("update-users", socketIDs);
     } catch (err) {
       console.log(err);
       socket.emit("error", "couldnt perform leave action");
