@@ -25,6 +25,8 @@ const socketEvents = (socket) => {
 
       io.to(join_code).emit("update-users", socketIDs);
       adminSocketID = socket.id;
+
+      io.to(socket.id).emit("set-admin", true);
     } catch (err) {
       console.log(err);
       socket.emit("error", "couldnt perform create action");
@@ -77,7 +79,7 @@ const socketEvents = (socket) => {
   });
 
   socket.on("start-game", ({ join_code }) => {
-    console.log(join_code);
+    // console.log(join_code);
     try {
       if (socket.id == adminSocketID) {
         socket.to(join_code).emit("game-starting");
