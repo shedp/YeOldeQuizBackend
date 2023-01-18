@@ -14,6 +14,17 @@ async function show(req, res){
 	}
 }
 
+async function showUser(req, res){
+	try{
+		const user = await User.findById(req.params.id)
+		res.status(200).send(user)
+	}catch(err){
+		console.log(err);
+		res.status(400).json({error: err})
+	}
+}
+
+
 async function register(req, res) {
 	try {
 		const data = req.body
@@ -76,4 +87,4 @@ async function logout(req, res) {
 	
 }
 
-module.exports = {show, register, login, logout }
+module.exports = {show, register, login, logout, showUser }
