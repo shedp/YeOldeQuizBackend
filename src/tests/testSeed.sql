@@ -50,3 +50,14 @@ CREATE TABLE scores(
     FOREIGN KEY(game_id) REFERENCES games(game_id),
     FOREIGN KEY(user_id) REFERENCES users(user_id)
 );
+
+-- INSERT INTO users (username, user_password) 
+-- VALUES
+-- (
+--     'testUser1', 
+--     "password1"
+-- ),
+-- (
+--     'testUser2', 
+--     'password2'
+-- )
