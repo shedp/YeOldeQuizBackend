@@ -1,9 +1,10 @@
 const Game = require("../models/Game");
 const { io } = require("../server_socket");
 
-const socketEvents = (socket) => {
-  let adminSocketID = "";
+let usersCompleted = 0;
+let adminSocketID = "";
 
+const socketEvents = (socket) => {
   console.log("User Connected");
 
   socket.on("disconnect", () => console.log("User has disconnected"));
@@ -52,21 +53,6 @@ const socketEvents = (socket) => {
     }
   });
 
-  //   socket.on("fetch-users", async ({ join_code }, cb) => {
-  //     let clients = await io.in(join_code).fetchSockets();
-  //     const socketIds = clients.map((socket) => socket.id);
-  //     cb(socketIds);
-  //     console.log(socketIds);
-  //   });
-
-  socket.on("send-questions", (questionsInfo, join_code) => {
-    try {
-      io.to(join_code).emit("receive-questions", questionsInfo);
-    } catch (err) {
-      console.log(err);
-    }
-  });
-
   socket.on("leave-game", async ({ join_code, username }) => {
     try {
       console.log(`${username} has left the lobby (${join_code})`);
@@ -97,6 +83,53 @@ const socketEvents = (socket) => {
       console.log(err);
     }
   });
+
+  socket.on("send-questions", (questionsInfo, join_code) => {
+    try {
+      io.to(join_code).emit("receive-questions", questionsInfo);
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  socket.on("user-complete", async (join_code) => {
+    try {
+      const sockets = await io.in(join_code).fetchSockets();
+      const socketIDs = sockets.map((socket) => socket.id);
+      usersCompleted += 1;
+      if (usersCompleted < socketIDs.length) {
+        console.log(usersCompleted);
+        socket.join(`Waiting${join_code}`);
+        io.to(`Waiting${join_code}`).emit(
+          "wait-for-others",
+          usersCompleted,
+          socketIDs.length
+        );
+      } else {
+        console.log("All Users Complete");
+        io.to(join_code).emit("next-round");
+        usersCompleted = 0;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  // socket.on("complete-user-waiting", async (join_code) => {
+  //   try {
+  //     const sockets = await io.in(join_code).fetchSockets();
+  //     const socketIDs = sockets.map((socket) => socket.id);
+  //     if (usersCompleted < socketIDs) {
+  //       io.to(socket.id).emit(
+  //         "wait-for-others",
+  //         usersCompleted,
+  //         socketIDs.length
+  //       );
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // });
 };
 
 module.exports = socketEvents;
