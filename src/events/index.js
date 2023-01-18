@@ -59,6 +59,14 @@ const socketEvents = (socket) => {
   //     console.log(socketIds);
   //   });
 
+  socket.on("send-questions", (questionsInfo, join_code) => {
+    try {
+      io.to(join_code).emit("receive-questions", questionsInfo);
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
   socket.on("leave-game", async ({ join_code, username }) => {
     try {
       console.log(`${username} has left the lobby (${join_code})`);
