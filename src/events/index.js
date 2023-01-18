@@ -94,6 +94,7 @@ const socketEvents = (socket) => {
   });
 
   socket.on("user-complete", async (join_code, scoreObj) => {
+    console.log(scoreObj);
     try {
       const sockets = await io.in(join_code).fetchSockets();
       const socketIDs = sockets.map((socket) => socket.id);
@@ -117,6 +118,7 @@ const socketEvents = (socket) => {
 
   socket.on("leave-waiting", async (join_code) => {
     try {
+      console.log("left waiting");
       socket.leave(`Waiting${join_code}`);
     } catch (err) {
       console.log(err);
