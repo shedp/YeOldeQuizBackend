@@ -3,6 +3,7 @@ const { io } = require("../server_socket");
 
 let usersCompleted = 0;
 let adminSocketID = "";
+let scores = [];
 
 const socketEvents = (socket) => {
   console.log("User Connected");
@@ -92,11 +93,12 @@ const socketEvents = (socket) => {
     }
   });
 
-  socket.on("user-complete", async (join_code) => {
+  socket.on("user-complete", async (join_code, scoreObj) => {
     try {
       const sockets = await io.in(join_code).fetchSockets();
       const socketIDs = sockets.map((socket) => socket.id);
       usersCompleted += 1;
+      scores = [...scores, scoreObj];
       if (usersCompleted < socketIDs.length) {
         console.log(usersCompleted);
         socket.join(`Waiting${join_code}`);
@@ -107,9 +109,18 @@ const socketEvents = (socket) => {
         );
       } else {
         console.log("All Users Complete");
-        io.to(join_code).emit("next-round");
+        io.to(join_code).emit("next-round", scores);
         usersCompleted = 0;
+        scores = [];
       }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  socket.on("leave-waiting", async (join_code) => {
+    try {
+      socket.leave(`Waiting${join_code}`);
     } catch (err) {
       console.log(err);
     }
