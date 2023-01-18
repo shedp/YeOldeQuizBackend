@@ -2,20 +2,29 @@ const Game = require("../models/Game");
 const { io } = require("../server_socket");
 
 const socketEvents = (socket) => {
+  let adminSocketID = "";
+
   console.log("User Connected");
 
   socket.on("disconnect", () => console.log("User has disconnected"));
 
   socket.on("hello", () => console.log("hello"));
 
-  socket.on("create-game", async ({ join_code, level, topics }) => {
+  socket.on("question", (question, answer) => {
+    //emit to all sockets
+    socket.to(join_code).emit("", question, answer);
+  });
+
+  socket.on("create-game", async ({ join_code, user_id, level, topics }) => {
     try {
       console.log(`Lobby created with join code: ${join_code}`);
       await socket.join(join_code);
       console.log(socket.id);
       const sockets = await io.in(join_code).fetchSockets();
       const socketIDs = sockets.map((socket) => socket.id);
+
       io.to(join_code).emit("update-users", socketIDs);
+      adminSocketID = socket.id;
     } catch (err) {
       console.log(err);
       socket.emit("error", "couldnt perform create action");
@@ -29,7 +38,12 @@ const socketEvents = (socket) => {
       console.log(socket.id);
       const sockets = await io.in(join_code).fetchSockets();
       const socketIDs = sockets.map((socket) => socket.id);
-      io.to(join_code).emit("update-users", socketIDs);
+      if (socketIDs.length > 4) {
+        await socket.leave(join_code);
+        io.to(socket.id).emit("max-users-error", "Lobby full");
+      } else {
+        io.to(join_code).emit("update-users", socketIDs);
+      }
     } catch (err) {
       console.log(err);
       socket.emit("error", "couldnt perform join action");
@@ -54,9 +68,12 @@ const socketEvents = (socket) => {
   });
 
   socket.on("start-game", ({ join_code }) => {
+    console.log(join_code);
     try {
-      console.log("Broadcasting to all users that game is starting");
-      socket.to(join_code).emit("game-starting");
+      if (socket.id == adminSocketID) {
+        socket.to(join_code).emit("game-starting");
+        console.log("Broadcasting to all users that game is starting");
+      }
     } catch (err) {
       console.log(err);
     }
