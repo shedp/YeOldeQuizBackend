@@ -7,7 +7,7 @@
     "setup-dev": "node ./db/seed.js",
     "start": "node server.js",
     "dev": "nodemon --trace-warnings server.js",
-    "test": "jest --setupFiles ./tests/integration/config.js --watchAll --detectOpenHandles --runInBand --verbose --coverage"
+    "test": "jest --setupFiles ./tests/config.js --watchAll --detectOpenHandles --runInBand --verbose --coverage"
   },
   "keywords": [],
   "author": "",

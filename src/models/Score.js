@@ -22,6 +22,19 @@ module.exports = class Score {
 		})
 	}
 
+	//get scores by Score_id
+	static findByScoreId(id){
+		return new Promise(async (resolve, reject) => {
+			try {
+				const response = await db.query("SELECT * FROM scores where score_id = $1;")
+				const scores = response.rows.map((s) => new Score(s))
+				resolve(scores)
+			} catch (err) {
+				reject("Scores not found")
+			}
+		})
+	}
+
 	//get scores by user_id
 	static findByUserId(id){
 		return new Promise(async (resolve, reject) => {
@@ -43,10 +56,8 @@ module.exports = class Score {
 	static findByGameId(id){
 		return new Promise(async (resolve, reject) => {
 			try {
-				let scoreData = await db.query(
-					`SELECT * FROM scores WHERE game_id = $1;`,
-					[id]
-				)
+				"SELECT * FROM scores WHERE score_id = $1;",
+					[id] 
 				let target = scoreData.rows.map(s => new Score(s))
 				resolve(target)
 			} catch (err) {

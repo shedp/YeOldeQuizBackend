@@ -23,6 +23,15 @@ async function showByUser (req, res){
     }
 }
 
+async function showById(req, res){
+    try{
+        const scores = await Score.findById(req.params.id)
+        res.status(200).json(scores)
+    } catch(err){
+        res.status(402).json(err)
+    }
+}
+
 async function showByGame(req, res){
     try{
         const scores = await Score.findByGameId(req.params.id)
@@ -65,5 +74,5 @@ async function update(req, res){
     }
 }
 
-module.exports = {index, showByUser, showByGame, create, destroy, update}
+module.exports = {index, showById, showByUser, showByGame, create, destroy, update}
 
