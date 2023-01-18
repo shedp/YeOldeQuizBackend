@@ -108,7 +108,6 @@ const socketEvents = (socket) => {
       } else {
         console.log("All Users Complete");
         await io.to(join_code).emit("next-round", scores);
-        usersCompleted = 0;
         scores = [];
       }
     } catch (err) {
