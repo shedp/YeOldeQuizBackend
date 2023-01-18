@@ -102,14 +102,12 @@ const socketEvents = (socket) => {
       if (usersCompleted < socketIDs.length) {
         console.log(usersCompleted);
         socket.join(`Waiting${join_code}`);
-        io.to(`Waiting${join_code}`).emit(
-          "wait-for-others",
-          usersCompleted,
-          socketIDs.length
-        );
+        await io
+          .to(`Waiting${join_code}`)
+          .emit("wait-for-others", usersCompleted, socketIDs.length);
       } else {
         console.log("All Users Complete");
-        io.to(join_code).emit("next-round", scores);
+        await io.to(join_code).emit("next-round", scores);
         usersCompleted = 0;
         scores = [];
       }
