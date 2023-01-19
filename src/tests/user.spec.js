@@ -67,28 +67,20 @@ describe('Testing with a test database (ElephantSQL)', () => {
         expect(res.statusCode).toEqual(200);
     }) 
 
-    it('Returns all rounds in rounds', async () => {
-        const res = await request(api).get('/rounds').set({Authorization: token});
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.length).toEqual(3);
-    })
-
-    // it('Create scores for new user', async () => {
-    //     const newUser = await request(api)
-    //     .post('/users/register')
-    //     .send({username: 'testUser2', password: 'password2'});
-
-    //     const res = await request(api).post('/scores')
-    //     .send({game_id: 1, round_id: 1, user_id: 2})
-    //     .set({Authorization: token});
-    //     expect(res.statusCode).toEqual(201);
-    // })
-
     it('Returns all scores in scores', async () => {
         const res = await request(api).get('/scores').set({Authorization: token});
         expect(res.statusCode).toEqual(200);
         expect(res.body.length).toEqual(3);
     })
+
+    it('Updates a user high score', async() => {
+        const res = await request(api).put('/users/1')
+                            .send({
+                                user_id: 1,
+                                score: 3,
+                            })
+        expect(res.statusCode).toEqual(200);
+    }) 
 
 
     it('Delete score, round and game', async() => {

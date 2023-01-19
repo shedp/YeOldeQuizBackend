@@ -61,6 +61,23 @@ class User {
         })
     }
 
+    static updateHighScore(score, id) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let currentScore = await db.query("SELECT highest_score FROM users WHERE user_id = $1", [id])
+                currentScore = currentScore.rows[0].highest_score;
+                if(score > currentScore) {
+                    let result = await db.query("UPDATE users SET highest_score = $1 WHERE user_id = $2 RETURNING *;", [score, id])
+                    resolve(result.rows[0])
+                } else {
+            resolve("Score not higher than current highest score.")
+        }} catch (err) {
+            console.log(err)
+            reject("Could not update user")
+        }
+        })
+        }
+
 }
 
 module.exports = User;
