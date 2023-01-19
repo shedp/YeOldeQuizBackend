@@ -2,8 +2,10 @@ const Game = require("../models/Game");
 const { io } = require("../server_socket");
 
 let usersCompleted = 0;
+let usersSent = 0;
 let adminSocketID = "";
 let scores = [];
+let finalScores = [];
 
 const socketEvents = (socket) => {
   console.log("User Connected");
@@ -94,14 +96,13 @@ const socketEvents = (socket) => {
   });
 
   socket.on("user-complete", async (join_code, scoreObj) => {
-    console.log(scoreObj);
     try {
       const sockets = await io.in(join_code).fetchSockets();
       const socketIDs = sockets.map((socket) => socket.id);
       usersCompleted += 1;
       scores = [...scores, scoreObj];
       if (usersCompleted < socketIDs.length) {
-        console.log(usersCompleted);
+        console.log("waiting room")
         socket.join(`Waiting${join_code}`);
         await io
           .to(`Waiting${join_code}`)
@@ -109,6 +110,7 @@ const socketEvents = (socket) => {
       } else {
         console.log("All Users Complete");
         await io.to(join_code).emit("next-round", scores);
+        usersCompleted = 0;
         scores = [];
       }
     } catch (err) {
@@ -118,12 +120,30 @@ const socketEvents = (socket) => {
 
   socket.on("leave-waiting", async (join_code) => {
     try {
-      console.log("left waiting");
       socket.leave(`Waiting${join_code}`);
     } catch (err) {
       console.log(err);
     }
   });
+
+  socket.on("pass-finalscores", async (join_code, {scoreObj}) => {
+    try{
+      const sockets = await io.in(join_code).fetchSockets();
+      const socketIDs = sockets.map((socket) => socket.id);
+      finalScores = [...finalScores, scoreObj]
+      usersSent += 1;
+      if(usersSent < socketIDs.length){
+        socket.join(`waiting${join_code}`);
+        await io.to(`waiting${join_code}`).emit("waiting-for-scores")
+      } else {
+        await io.to(join_code).emit("all-scores", finalScores)
+        usersSent = 0;
+        finalScores = []
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  })
 
   // socket.on("complete-user-waiting", async (join_code) => {
   //   try {
