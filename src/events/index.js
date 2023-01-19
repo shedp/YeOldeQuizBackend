@@ -181,21 +181,13 @@ const socketEvents = (socket) => {
     }
   });
 
-  // socket.on("complete-user-waiting", async (join_code) => {
-  //   try {
-  //     const sockets = await io.in(join_code).fetchSockets();
-  //     const socketIDs = sockets.map((socket) => socket.id);
-  //     if (usersCompleted < socketIDs) {
-  //       io.to(socket.id).emit(
-  //         "wait-for-others",
-  //         usersCompleted,
-  //         socketIDs.length
-  //       );
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // });
+  socket.on("pass-game-id", async ({ game_id, join_code }) => {
+    try {
+      await io.to(join_code).emit("receive-game-id", game_id);
+    } catch (err) {
+      console.log(err);
+    }
+  });
 };
 
 module.exports = socketEvents;
