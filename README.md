@@ -38,6 +38,7 @@ You can find the repository for the connected UI [here](https://github.com/Polly
 - [randomstring](https://www.npmjs.com/package/randomstring)
 - [PostgreSQL](https://www.postgresql.org/)
 - [uuid](https://www.npmjs.com/package/uuid)
+- - Testing [jest](https://www.npmjs.com/package/jest) and [SuperTest](https://www.npmjs.com/package/supertest)
 - Deployment: 
 
 ## Process :bar_chart:
