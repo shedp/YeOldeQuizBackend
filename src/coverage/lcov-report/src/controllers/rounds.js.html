@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10% </span>
+                <span class="strong">13.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/20</span>
+                <span class='fraction'>2/15</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10% </span>
+                <span class="strong">13.33% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/20</span>
+                <span class='fraction'>2/15</span>
             </div>
         
             
@@ -95,26 +95,7 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a>
-<a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a>
-<a name='L37'></a><a href='#L37'>37</a>
-<a name='L38'></a><a href='#L38'>38</a>
-<a name='L39'></a><a href='#L39'>39</a>
-<a name='L40'></a><a href='#L40'>40</a>
-<a name='L41'></a><a href='#L41'>41</a>
-<a name='L42'></a><a href='#L42'>42</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -145,47 +126,39 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Round = require("../models/Round")
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Round = require("../models/Round");
 &nbsp;
-async function <span class="fstat-no" title="function not covered" >index </span>(req, res) {
-<span class="cstat-no" title="statement not covered" >    try{</span>
-        const rounds = <span class="cstat-no" title="statement not covered" >await Round.all()</span>
-<span class="cstat-no" title="statement not covered" >        console.log(rounds)</span>
-<span class="cstat-no" title="statement not covered" >        res.status(200).json(rounds);</span>
-    } catch(err) {
-<span class="cstat-no" title="statement not covered" >        res.status(500).send(err)</span>
-    }
+async function <span class="fstat-no" title="function not covered" >getRoundIDs(</span>req, res) {
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const roundIDs = <span class="cstat-no" title="statement not covered" >await Round.findByGameId(req.params.id);</span>
+<span class="cstat-no" title="statement not covered" >    res.status(200).json(roundIDs);</span>
+  } catch (err) {
+<span class="cstat-no" title="statement not covered" >    res.status(404).json({ err });</span>
+  }
 }
 &nbsp;
-async function <span class="fstat-no" title="function not covered" >showByGame(</span>req, res){
-<span class="cstat-no" title="statement not covered" >    try{</span>
-        const rounds = <span class="cstat-no" title="statement not covered" >await Round.findByGameId(req.params.id)</span>
-<span class="cstat-no" title="statement not covered" >        res.status(200).json(rounds)</span>
-    } catch(err){
-<span class="cstat-no" title="statement not covered" >        res.status(402).json(err)</span>
-    }
+async function <span class="fstat-no" title="function not covered" >create(</span>req, res) {
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const round = <span class="cstat-no" title="statement not covered" >await Round.create(req.body);</span>
+<span class="cstat-no" title="statement not covered" >    res.status(201).json(round);</span>
+  } catch (err) {
+<span class="cstat-no" title="statement not covered" >    res.status(422).json({ err });</span>
+  }
 }
 &nbsp;
-async function <span class="fstat-no" title="function not covered" >create(</span>req, res){
-<span class="cstat-no" title="statement not covered" >    try {</span>
-        const round = <span class="cstat-no" title="statement not covered" >await Round.create(req.body);</span>
-<span class="cstat-no" title="statement not covered" >        res.status(201).json(round)</span>
-    } catch (err){
-<span class="cstat-no" title="statement not covered" >        res.status(422).json({err})</span>
-    }
+async function <span class="fstat-no" title="function not covered" >destroy(</span>req, res) {
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const round = <span class="cstat-no" title="statement not covered" >await Round.findByGameId(req.params.id);</span>
+    const resp = <span class="cstat-no" title="statement not covered" >await round.destroy();</span>
+<span class="cstat-no" title="statement not covered" >    res.status(204).end();</span>
+  } catch (err) {
+<span class="cstat-no" title="statement not covered" >    res.status(404).json({ err });</span>
+  }
 }
 &nbsp;
-async function <span class="fstat-no" title="function not covered" >destroy(</span>req, res){
-<span class="cstat-no" title="statement not covered" >    try {</span>
-        const round = <span class="cstat-no" title="statement not covered" >await Round.findByGameId(req.params.id);</span>
-        const resp = <span class="cstat-no" title="statement not covered" >await round.destroy()</span>
-<span class="cstat-no" title="statement not covered" >        res.status(204).end()</span>
-    } catch (err){
-<span class="cstat-no" title="statement not covered" >        res.status(404).json({err})</span>
-    }
-}
+module.exports = { create, destroy, getRoundIDs };
 &nbsp;
-module.exports = {create, destroy, showByGame}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -193,7 +166,7 @@ module.exports = {create, destroy, showByGame}
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-19T14:35:08.025Z
+                at 2023-01-19T17:41:45.019Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

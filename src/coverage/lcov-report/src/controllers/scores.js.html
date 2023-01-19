@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.07% </span>
+                <span class="strong">27.02% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/39</span>
+                <span class='fraction'>10/37</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.57% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/7</span>
+                <span class='fraction'>2/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.07% </span>
+                <span class="strong">27.02% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/39</span>
+                <span class='fraction'>10/37</span>
             </div>
         
             
@@ -136,12 +136,7 @@
 <a name='L71'></a><a href='#L71'>71</a>
 <a name='L72'></a><a href='#L72'>72</a>
 <a name='L73'></a><a href='#L73'>73</a>
-<a name='L74'></a><a href='#L74'>74</a>
-<a name='L75'></a><a href='#L75'>75</a>
-<a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L74'></a><a href='#L74'>74</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -157,20 +152,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -212,91 +197,91 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Score = require("../models/Score");
-const Session = require("../models/Session")
+const Session = require("../models/Session");
 &nbsp;
-async function index (req, res) {
-    try{
-        const scores = await Score.all
-        res.status(200).json(scores);
-    } catch(err) {
-<span class="cstat-no" title="statement not covered" >        res.status(500).send(err)</span>
-    }
+async function index(req, res) {
+  try {
+    const scores = await Score.all;
+    res.status(200).json(scores);
+  } catch (err) {
+<span class="cstat-no" title="statement not covered" >    res.status(500).send(err);</span>
+  }
 }
 &nbsp;
-async function <span class="fstat-no" title="function not covered" >showByUser </span>(req, res){
-<span class="cstat-no" title="statement not covered" >    try{</span>
-        const userToken = <span class="cstat-no" title="statement not covered" >req.headers["authorization"]</span>
-		const sesh = <span class="cstat-no" title="statement not covered" >await Session.findBySessionToken(userToken)</span>
-        
-        const scores = <span class="cstat-no" title="statement not covered" >await Score.findByUserId(sesh.user_id)</span>
-<span class="cstat-no" title="statement not covered" >        res.status(200).json(scores)</span>
-    } catch (err){
-<span class="cstat-no" title="statement not covered" >        console.log(err)</span>
-<span class="cstat-no" title="statement not covered" >        res.status(402).json(err)</span>
-    }
+async function <span class="fstat-no" title="function not covered" >showByUser(</span>req, res) {
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const userToken = <span class="cstat-no" title="statement not covered" >req.headers["authorization"];</span>
+    const sesh = <span class="cstat-no" title="statement not covered" >await Session.findBySessionToken(userToken);</span>
+    const scores = <span class="cstat-no" title="statement not covered" >await Score.findByUserId(sesh.user_id);</span>
+<span class="cstat-no" title="statement not covered" >    res.status(200).json(scores);</span>
+  } catch (err) {
+<span class="cstat-no" title="statement not covered" >    console.log(err);</span>
+<span class="cstat-no" title="statement not covered" >    res.status(402).json(err);</span>
+  }
 }
 &nbsp;
-async function <span class="fstat-no" title="function not covered" >showById(</span>req, res){
-<span class="cstat-no" title="statement not covered" >    try{</span>
-        const scores = <span class="cstat-no" title="statement not covered" >await Score.findById(req.params.id)</span>
-<span class="cstat-no" title="statement not covered" >        res.status(200).json(scores)</span>
-    } catch(err){
-<span class="cstat-no" title="statement not covered" >        res.status(402).json(err)</span>
-    }
+async function <span class="fstat-no" title="function not covered" >showByGame(</span>req, res) {
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const scores = <span class="cstat-no" title="statement not covered" >await Score.findByGameId(req.params.id);</span>
+<span class="cstat-no" title="statement not covered" >    res.status(200).json(scores);</span>
+  } catch (err) {
+<span class="cstat-no" title="statement not covered" >    res.status(402).json(err);</span>
+  }
 }
 &nbsp;
-async function <span class="fstat-no" title="function not covered" >showByGame(</span>req, res){
-<span class="cstat-no" title="statement not covered" >    try{</span>
-        const scores = <span class="cstat-no" title="statement not covered" >await Score.findByGameId(req.params.id)</span>
-<span class="cstat-no" title="statement not covered" >        res.status(200).json(scores)</span>
-    } catch(err){
-<span class="cstat-no" title="statement not covered" >        res.status(402).json(err)</span>
-    }
+async function <span class="fstat-no" title="function not covered" >create(</span>req, res) {
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const userToken = <span class="cstat-no" title="statement not covered" >req.headers["authorization"];</span>
+    const sesh = <span class="cstat-no" title="statement not covered" >await Session.findBySessionToken(userToken);</span>
+    const game_id = <span class="cstat-no" title="statement not covered" >req.body.game_id;</span>
+    const round_id = <span class="cstat-no" title="statement not covered" >req.body.round_id;</span>
+&nbsp;
+    const newScore = <span class="cstat-no" title="statement not covered" >await Score.create(game_id, round_id, sesh.user_id);</span>
+<span class="cstat-no" title="statement not covered" >    res.status(201).json(newScore);</span>
+  } catch (err) {
+<span class="cstat-no" title="statement not covered" >    res.status(422).json(err);</span>
+  }
 }
 &nbsp;
-async function <span class="fstat-no" title="function not covered" >create(</span>req, res){
-<span class="cstat-no" title="statement not covered" >    try{</span>
-        const userToken = <span class="cstat-no" title="statement not covered" >req.headers["authorization"]</span>
-		const sesh = <span class="cstat-no" title="statement not covered" >await Session.findBySessionToken(userToken)</span>
-        const game_id = <span class="cstat-no" title="statement not covered" >req.body.game_id;</span>
-        const round_id = <span class="cstat-no" title="statement not covered" >req.body.round_id;</span>
-        
-        const newScore = <span class="cstat-no" title="statement not covered" >await Score.create(game_id, round_id, sesh.user_id)</span>
-<span class="cstat-no" title="statement not covered" >        res.status(201).json(newScore)</span>
-    }catch(err){
-<span class="cstat-no" title="statement not covered" >        res.status(422).json(err)</span>
-    }
+async function <span class="fstat-no" title="function not covered" >destroy(</span>req, res) {
+<span class="cstat-no" title="statement not covered" >  try {</span>
+    const score = <span class="cstat-no" title="statement not covered" >await Score.findAllByGameId(req.params.id);</span>
+    const resp = <span class="cstat-no" title="statement not covered" >await score.destroy();</span>
+<span class="cstat-no" title="statement not covered" >    res.status(204).end();</span>
+  } catch (err) {
+<span class="cstat-no" title="statement not covered" >    res.status(404).json(err);</span>
+  }
 }
 &nbsp;
-async function <span class="fstat-no" title="function not covered" >destroy(</span>req, res){
-<span class="cstat-no" title="statement not covered" >    try{</span>
-        const score = <span class="cstat-no" title="statement not covered" >await Score.findAllByGameId(req.params.id)</span>
-        const resp = <span class="cstat-no" title="statement not covered" >await score.destroy()</span>
-<span class="cstat-no" title="statement not covered" >        res.status(204).end()</span>
-    } catch (err){
-<span class="cstat-no" title="statement not covered" >        res.status(404).json(err)</span>
-    }
+async function update(req, res) {
+  try {
+    const userToken = req.headers["authorization"];
+    const sesh = await Session.findBySessionToken(userToken);
+    const score = <span class="cstat-no" title="statement not covered" >await Score.update(</span>
+      req.body.score,
+      req.params.id,
+      sesh.user_id
+    );
+<span class="cstat-no" title="statement not covered" >    res.status(200).json(score);</span>
+  } catch (err) {
+    res.status(417).json(err);
+  }
 }
 &nbsp;
-async function update(req, res){
-    try{
-        const score = await Score.update(req.body.score, req.params.id)
-        res.status(200).json(score)
-    } catch(err){
-<span class="cstat-no" title="statement not covered" >        res.status(417).json(err)</span>
-    }
-}
-&nbsp;
-module.exports = {index, showById, showByUser, showByGame, create, destroy, update}
-&nbsp;
+module.exports = { index, showByUser, showByGame, create, destroy, update };
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -304,7 +289,7 @@ module.exports = {index, showById, showByUser, showByGame, create, destroy, upda
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-19T14:35:08.025Z
+                at 2023-01-19T17:41:45.019Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
