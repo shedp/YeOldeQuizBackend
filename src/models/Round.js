@@ -8,7 +8,6 @@ class Round {
     this.topic = data.topic;
   }
 
-
 	//get all rounds
 	static get all() {
 		return new Promise(async (resolve, reject) => {

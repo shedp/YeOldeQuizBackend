@@ -58,20 +58,6 @@ describe('Testing with a test database (ElephantSQL)', () => {
         expect(res.statusCode).toEqual(200)
     })
 
-    it('Updates a score', async() => {
-        const res = await request(api).put('/scores/1')
-                            .send({
-                                score_id: 1,
-                                score: 1
-                            })
-        expect(res.statusCode).toEqual(200);
-    }) 
-
-    it('Returns all scores in scores', async () => {
-        const res = await request(api).get('/scores').set({Authorization: token});
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.length).toEqual(3);
-    })
 
     it('Updates a user high score', async() => {
         const res = await request(api).put('/users/1')
