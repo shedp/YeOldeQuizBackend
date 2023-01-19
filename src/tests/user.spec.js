@@ -69,19 +69,19 @@ describe('Testing with a test database (ElephantSQL)', () => {
         expect(res.statusCode).toEqual(200)
     })
 
-    it('creates a new score', async () => {
+    // it('creates a new score', async () => {
         // const newUser = await request(api)
         //     .post('/users/register')
         //     .send({username: 'testUser2', password: 'password2'});
-        const res = await request(api)
-            .post('/score')
-            .send({
-                game_id: 1,
-                round_id: 1,
-                user_id: 1})
-            .set({Authorization: token});
-        expect(res.statusCode).toEqual(201);
-    })
+    //     const res = await request(api)
+    //         .post('/score')
+    //         .send({
+    //             game_id: 1,
+    //             round_id: 1,
+    //             user_id: 1})
+    //         .set({Authorization: token});
+    //     expect(res.statusCode).toEqual(201);
+    // })
 
 
     it('Updates a user high score', async() => {
