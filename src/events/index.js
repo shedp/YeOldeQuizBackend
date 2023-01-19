@@ -6,6 +6,7 @@ let usersSent = 0;
 let adminSocketID = "";
 let scores = [];
 let finalScores = [];
+let users = [];
 
 const socketEvents = (socket) => {
   console.log("User Connected");
@@ -19,15 +20,16 @@ const socketEvents = (socket) => {
     socket.to(join_code).emit("", question, answer);
   });
 
-  socket.on("create-game", async ({ join_code, user_id, level, topics }) => {
+  socket.on("create-game", async ({ gameInfo, username }) => {
     try {
-      console.log(`Lobby created with join code: ${join_code}`);
-      await socket.join(join_code);
-      console.log(socket.id);
-      const sockets = await io.in(join_code).fetchSockets();
-      const socketIDs = sockets.map((socket) => socket.id);
+      console.log(`Lobby created with join code: ${gameInfo.join_code}`);
+      await socket.join(gameInfo.join_code);
+      // console.log(socket.id);
+      // const sockets = await io.in(gameInfo.join_code).fetchSockets();
+      // const socketIDs = sockets.map((socket) => socket.id);
+      users = [...users, username];
 
-      io.to(join_code).emit("update-users", socketIDs);
+      io.to(gameInfo.join_code).emit("update-users", users);
       adminSocketID = socket.id;
 
       io.to(socket.id).emit("set-admin", true);
@@ -41,14 +43,15 @@ const socketEvents = (socket) => {
     try {
       console.log(`${username} has joined the lobby (${join_code})`);
       await socket.join(join_code);
-      console.log(socket.id);
+      // console.log(socket.id);
       const sockets = await io.in(join_code).fetchSockets();
       const socketIDs = sockets.map((socket) => socket.id);
       if (socketIDs.length > 4) {
         await socket.leave(join_code);
         io.to(socket.id).emit("max-users-error", "Lobby full");
       } else {
-        io.to(join_code).emit("update-users", socketIDs);
+        users = [...users, username];
+        io.to(join_code).emit("update-users", users);
       }
     } catch (err) {
       console.log(err);
