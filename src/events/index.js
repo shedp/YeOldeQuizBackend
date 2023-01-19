@@ -96,13 +96,14 @@ const socketEvents = (socket) => {
   });
 
   socket.on("user-complete", async (join_code, scoreObj) => {
+    console.log(scoreObj);
     try {
       const sockets = await io.in(join_code).fetchSockets();
       const socketIDs = sockets.map((socket) => socket.id);
       usersCompleted += 1;
       scores = [...scores, scoreObj];
       if (usersCompleted < socketIDs.length) {
-        console.log("waiting room")
+        console.log("waiting room");
         socket.join(`Waiting${join_code}`);
         await io
           .to(`Waiting${join_code}`)
@@ -126,24 +127,47 @@ const socketEvents = (socket) => {
     }
   });
 
-  socket.on("pass-finalscores", async (join_code, {scoreObj}) => {
-    try{
+  socket.on("pass-finalscores", async (join_code, scoreObj) => {
+    console.log("scoreobj", scoreObj);
+    try {
       const sockets = await io.in(join_code).fetchSockets();
       const socketIDs = sockets.map((socket) => socket.id);
-      finalScores = [...finalScores, scoreObj]
+      finalScores = [...finalScores, scoreObj];
       usersSent += 1;
-      if(usersSent < socketIDs.length){
+      if (usersSent < socketIDs.length) {
         socket.join(`waiting${join_code}`);
-        await io.to(`waiting${join_code}`).emit("waiting-for-scores")
+        await io.to(`waiting${join_code}`).emit("waiting-for-scores");
       } else {
-        await io.to(join_code).emit("all-scores", finalScores)
+        console.log("finalScores", finalScores);
+        await io.to(join_code).emit("redirect-to-results", finalScores);
+
         usersSent = 0;
-        finalScores = []
+        finalScores = [];
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  })
+  });
+
+  socket.on("did-i-win", async (winner_id, join_code) => {
+    try {
+      if (socket.id == winner_id) {
+        console.log("Winner");
+        io.to(socket.id).emit("winner");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  socket.on("leave-end-lobby", async (join_code) => {
+    try {
+      socket.leave(join_code);
+      io.to(socket.id).emit("left-end-lobby");
+    } catch (err) {
+      console.log(err);
+    }
+  });
 
   // socket.on("complete-user-waiting", async (join_code) => {
   //   try {
