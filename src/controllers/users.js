@@ -86,14 +86,25 @@ async function login(req, res) {
 }
 
 async function logout(req, res) {
-  try {
-    const session = await Session.findBySessionToken(req.body.sessionToken);
-    const resp = session.deleteSession();
-    res.status(204).end();
-  } catch (err) {
-    console.log(err);
-    res.status(404).json({ err });
-  }
+	try {
+		const session = await Session.findBySessionToken(req.body.sessionToken);
+		const resp = session.deleteSession();
+		res.status(204).end();
+	} catch (err) {
+		console.log(err)
+		res.status(404).json({err});
+	}
 }
 
-module.exports = { show, register, login, logout, showUser, findUserId };
+async function update(req, res){
+	try{
+		const user = await User.updateHighScore(req.body.score, req.params.id)
+		res.status(200).json(user)
+	} catch(err){
+		res.status(417).json(err)
+	}
+}
+	
+
+module.exports = {show, register, login, logout, showUser, update, findUserId };
+

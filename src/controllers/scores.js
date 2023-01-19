@@ -14,13 +14,22 @@ async function showByUser(req, res) {
   try {
     const userToken = req.headers["authorization"];
     const sesh = await Session.findBySessionToken(userToken);
-
     const scores = await Score.findByUserId(sesh.user_id);
     res.status(200).json(scores);
   } catch (err) {
     console.log(err);
     res.status(402).json(err);
   }
+  }
+
+
+async function showById(req, res){
+    try{
+        const scores = await Score.findById(req.params.id)
+        res.status(200).json(scores)
+    } catch(err){
+        res.status(402).json(err)
+    }
 }
 
 async function showByGame(req, res) {
@@ -56,6 +65,7 @@ async function destroy(req, res) {
   }
 }
 
+
 async function update(req, res) {
   try {
     const userToken = req.headers["authorization"];
@@ -70,5 +80,6 @@ async function update(req, res) {
     res.status(417).json(err);
   }
 }
+
 
 module.exports = { index, showByUser, showByGame, create, destroy, update };

@@ -22,6 +22,7 @@ module.exports = class Score {
     });
   }
 
+
   //get scores by user_id
   static findByUserId(id) {
     return new Promise(async (resolve, reject) => {
@@ -54,6 +55,7 @@ module.exports = class Score {
       }
     });
   }
+
 
   // create new score
   static create(game_id, round_id, user_id) {
