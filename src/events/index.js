@@ -27,7 +27,7 @@ const socketEvents = (socket) => {
       // console.log(socket.id);
       // const sockets = await io.in(gameInfo.join_code).fetchSockets();
       // const socketIDs = sockets.map((socket) => socket.id);
-      users = [...users, username];
+      users = [username];
 
       io.to(gameInfo.join_code).emit("update-users", users);
       adminSocketID = socket.id;
@@ -66,12 +66,17 @@ const socketEvents = (socket) => {
       const sockets = await io.in(join_code).fetchSockets();
       const socketIDs = sockets.map((socket) => socket.id);
 
+      // remove user
+      const index = users.indexOf(username);
+      users.splice(index, 1);
+      console.log(users);
+
       io.to(socket.id).emit(
         "disconnect-user",
         (socket.id, "User has left the lobby")
       );
 
-      io.to(join_code).emit("update-users", socketIDs);
+      io.to(join_code).emit("update-users", users);
     } catch (err) {
       console.log(err);
       socket.emit("error", "couldnt perform leave action");
@@ -103,13 +108,15 @@ const socketEvents = (socket) => {
     try {
       const sockets = await io.in(join_code).fetchSockets();
       const socketIDs = sockets.map((socket) => socket.id);
+      console.log("usersCompleted", usersCompleted);
+      console.log("socketlength", socketIDs.length);
       usersCompleted += 1;
       scores = [...scores, scoreObj];
       if (usersCompleted < socketIDs.length) {
         console.log("waiting room");
-        socket.join(`Waiting${join_code}`);
+        socket.join(`waiting${join_code}`);
         await io
-          .to(`Waiting${join_code}`)
+          .to(`waiting${join_code}`)
           .emit("wait-for-others", usersCompleted, socketIDs.length);
       } else {
         console.log("All Users Complete");
@@ -124,7 +131,7 @@ const socketEvents = (socket) => {
 
   socket.on("leave-waiting", async (join_code) => {
     try {
-      socket.leave(`Waiting${join_code}`);
+      socket.leave(`waiting${join_code}`);
     } catch (err) {
       console.log(err);
     }
@@ -139,7 +146,9 @@ const socketEvents = (socket) => {
       usersSent += 1;
       if (usersSent < socketIDs.length) {
         socket.join(`waiting${join_code}`);
-        await io.to(`waiting${join_code}`).emit("waiting-for-scores");
+        await io
+          .to(`waiting${join_code}`)
+          .emit("waiting-for-scores", usersSent, socketIDs.length);
       } else {
         console.log("finalScores", finalScores);
         await io.to(join_code).emit("redirect-to-results", finalScores);
