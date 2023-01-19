@@ -54,7 +54,7 @@ class Game {
 					level,
 					topics
 				} = gameData
-				const join_code = randomString.generate({length: 8, capitalization: "uppercase"}); // find npm package to create a code
+				const join_code = randomString.generate({length: 8, capitalization: "uppercase"});
 				const result = await db.query(
 					"INSERT INTO games (creator_id, level, join_code) VALUES ($1, $2, $3) RETURNING *;",
 					[user_id, level, join_code]

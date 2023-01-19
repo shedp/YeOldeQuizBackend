@@ -8,15 +8,25 @@ class Round {
 		this.topic = data.topic
 	}
 
-	//find by game_id
+	//get all rounds
+	static get all() {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const response = await db.query("SELECT * FROM rounds;")
+				const rounds = response.rows.map((s) => new Round(s))
+				resolve(rounds)
+			} catch (err) {
+				reject("Rounds not found")
+			}
+		})
+	}
+
+	//get scores by game_id
 	static findByGameId(id){
 		return new Promise(async (resolve, reject) => {
 			try {
-				let roundData = await db.query(
-					`SELECT * FROM rounds WHERE game_id = $1;`,
-					[id]
-				)
-				let target = roundData.rows.map(r => new Round(r))
+				const response = await db.query("SELECT * FROM rounds WHERE game_id = $1;", [id])
+				const target = response.rows.map(s => new Round(s))
 				resolve(target)
 			} catch (err) {
 				reject("Rounds not found")

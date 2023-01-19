@@ -27,8 +27,8 @@ module.exports = class Score {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const response = await db.query("SELECT * FROM scores where score_id = $1;")
-				const scores = response.rows.map((s) => new Score(s))
-				resolve(scores)
+				let score = new Score(response.rows[0])
+				resolve(score)
 			} catch (err) {
 				reject("Scores not found")
 			}
@@ -56,7 +56,7 @@ module.exports = class Score {
 	static findByGameId(id){
 		return new Promise(async (resolve, reject) => {
 			try {
-				"SELECT * FROM scores WHERE score_id = $1;",
+				"SELECT * FROM scores WHERE game_id = $1;",
 					[id] 
 				let target = scoreData.rows.map(s => new Score(s))
 				resolve(target)
