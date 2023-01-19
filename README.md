@@ -4,41 +4,76 @@
 
 Ye Olde Quiz is a quiz website inspired by everyone's favorite activity...a Pub Quiz!
 
-## Motivation
+This app makes use of the [Open Trivia Database](https://opentdb.com/)
 
-This project is part of the futureproof curriculum for LAP 3 project. We were tasked with the creation of a quiz website. 
+## Motivation :muscle:
 
-## Installation and Usage.
+This project is part of the futureproof curriculum for LAP 3 project. We were tasked with the creation of a quiz website.
 
-### Installation
+## Installation and Usage
 
-### Usage
+Note: This repository contains the backend of the application.
 
+You can find the repository for the connected UI [here](https://github.com/PollyFenne/Ye_olde_quiz_frontend).
 
-## Technologies
+### Installation :inbox_tray:
 
+- Clone or download this repository.
+- `npm install` to install the dependencies
 
-## Process
+### Usage :open_file_folder:
 
-- Started with half a day planning, experimenting with ideas on Figma and creating tasks in a Trello board.
-- Split up tasks into backend and frontend:
-  - Frontend was split up into the different webpages.
-  - Backend was split between defining routes and creating service methods, with testing completed after.
-- Once backend completed, all collaborated on frontend.
-- Connected up frontend and backend
-- Deployed website
-- Went through site together to identify any changes/updates needed
+- `npm run dev` to start the server
+- Ensure the [frontend UI](https://github.com/PollyFenne/Ye_olde_quiz_frontend) is running  
+- In your chosen browser (Chrome recommended) navigate to 'http://localhost:8080'
 
-## Challenges and Wins
+## Technologies :desktop_computer:
 
-### Challenges
+- [express](https://www.npmjs.com/package/express)
+- [cors](https://www.npmjs.com/package/cors)
+- [nodemon](https://www.npmjs.com/package/nodemon)
+- [bcrypt](https://www.npmjs.com/package/bcrypt)
+- [dayjs](https://www.npmjs.com/package/dayjs)
+- [dotenv](https://www.npmjs.com/package/dotenv)
+- [randomstring](https://www.npmjs.com/package/randomstring)
+- [PostgreSQL](https://www.postgresql.org/)
+- [uuid](https://www.npmjs.com/package/uuid)
+- Deployment: 
 
-### Wins
+## Process :bar_chart:
 
-Page insight?
+- Started with a day planning, using tools such as Figma and creating todo tasks in a Trello board.
+- Split up work into backend and frontend:
+- Once server was working, testing was done.
+- Implimented Socket.io on both the front and back end at the same time.
+- Worked together to fix any bugs and finalise small featues.
+- Deployed website.
 
-## Future Features
+# Challeges and Wins
 
+### Challenges :no_entry:
+
+### Wins :trophy:
+
+## Bugs :bug:
+
+### Multiple games at one go
+
+Having multiple games running simultaneously will cause some bugs
+
+## Future Features :timer_clock:
+
+### Displaying questions 1 by 1
+
+Currently each round is displayed as one form with all the questions for that round to aid with simplicity.
+
+A future feature would be to impliment functionality that allows each question to be displayed, then the answer for that question, and then for the next question appear.
+
+### Choosing type of question
+
+The API has two types of questions: multiple choice and true/false. Currently users don't have an option for choosing the type of question they want and there will just be a mix.
+
+A feature feature would be to allow users to select just one type of question or to have a mix
 
 ## Contributors
 
