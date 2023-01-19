@@ -53,9 +53,34 @@ describe('Testing with a test database (ElephantSQL)', () => {
         expect(res.body.length).toEqual(1);
     })
 
-    it('Finds game by their game_id', async() => {
-        const res = await request(api).get('/games/1')
+    it('finds all scores', async() => {
+        const res = await request(api).get('/scores')
         expect(res.statusCode).toEqual(200)
+    })
+
+    it('Finds score by their game_id', async() => {
+        const res = await request(api).get('/scores/game/1')
+        expect(res.statusCode).toEqual(200)
+    })
+
+
+    it('Finds score by their user_id', async() => {
+        const res = await request(api).get('/scores/users/1')
+        expect(res.statusCode).toEqual(200)
+    })
+
+    it('creates a new score', async () => {
+        // const newUser = await request(api)
+        //     .post('/users/register')
+        //     .send({username: 'testUser2', password: 'password2'});
+        const res = await request(api)
+            .post('/score')
+            .send({
+                game_id: 1,
+                round_id: 1,
+                user_id: 1})
+            .set({Authorization: token});
+        expect(res.statusCode).toEqual(201);
     })
 
 
@@ -68,12 +93,11 @@ describe('Testing with a test database (ElephantSQL)', () => {
         expect(res.statusCode).toEqual(200);
     }) 
 
-
     it('Delete score, round and game', async() => {
         const res = await request(api).delete('/games/1').set({Authorization: token})
         expect(res.statusCode).toEqual(204);
-     const scores = await request(api).get('/scores').set({Authorization: token});
-         expect(scores.body.length).toEqual(0);
+        const scores = await request(api).get('/scores').set({Authorization: token});
+            expect(scores.body.length).toEqual(0);
     })
 
 })

@@ -9,15 +9,5 @@ async function create(req, res) {
   }
 }
 
-async function destroy(req, res) {
-  try {
-    const round = await Round.findByGameId(req.params.id);
-    const resp = await round.destroy();
-    res.status(204).end();
-  } catch (err) {
-    res.status(404).json({ err });
-  }
-}
-
-module.exports = { create, destroy};
+module.exports = { create };
 
