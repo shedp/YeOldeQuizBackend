@@ -11,15 +11,16 @@ async function index(req, res) {
 }
 
 async function showByUser(req, res) {
-
   try {
-    const scores = await Score.findByUserId(req.params.id);
+    const userToken = req.headers["authorization"];
+    const sesh = await Session.findBySessionToken(userToken);
+    const scores = await Score.findByUserId(sesh.user_id);
     res.status(200).json(scores);
   } catch (err) {
+    console.log(err);
     res.status(402).json(err);
   }
 }
-
 
 async function showByGame(req, res) {
   try {
@@ -44,6 +45,29 @@ async function create(req, res) {
   }
 }
 
+async function destroy(req, res) {
+  try {
+    const score = await Score.findAllByGameId(req.params.id);
+    const resp = await score.destroy();
+    res.status(204).end();
+  } catch (err) {
+    res.status(404).json(err);
+  }
+}
 
+async function update(req, res) {
+  try {
+    const userToken = req.headers["authorization"];
+    const sesh = await Session.findBySessionToken(userToken);
+    const score = await Score.update(
+      req.body.score,
+      req.params.id,
+      sesh.user_id
+    );
+    res.status(200).json(score);
+  } catch (err) {
+    res.status(417).json(err);
+  }
+}
 
-module.exports = { index, showByUser, showByGame, create };
+module.exports = { index, showByUser, showByGame, create, destroy, update };
