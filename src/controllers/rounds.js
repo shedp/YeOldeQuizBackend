@@ -1,5 +1,14 @@
 const Round = require("../models/Round");
 
+async function getRoundIDs(req, res) {
+  try {
+    const roundIDs = await Round.findByGameId(req.params.id);
+    res.status(200).json(roundIDs);
+  } catch (err) {
+    res.status(404).json({ err });
+  }
+}
+
 async function create(req, res) {
   try {
     const round = await Round.create(req.body);
@@ -9,14 +18,7 @@ async function create(req, res) {
   }
 }
 
-async function index(req, res){
-    try{
-        const rounds = await Round.all;
-        res.status(200).json(scores);
-    }catch(err){
-        res.status(500).json(err)
-    }
-}
 
-module.exports = { create, index };
+
+module.exports = { create, getRoundIDs  };
 
