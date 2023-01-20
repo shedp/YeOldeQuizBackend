@@ -8,18 +8,18 @@ class Round {
     this.topic = data.topic;
   }
 
-	// //get all rounds
-	// static get all() {
-	// 	return new Promise(async (resolve, reject) => {
-	// 		try {
-	// 			const response = await db.query("SELECT * FROM rounds;")
-	// 			const rounds = response.rows.map((s) => new Round(s))
-	// 			resolve(rounds)
-	// 		} catch (err) {
-	// 			reject("Rounds not found")
-	// 		}
-	// 	})
-	// }
+	//get all rounds
+	static get all() {
+		return new Promise(async (resolve, reject) => {
+			try {
+				const response = await db.query("SELECT * FROM rounds;")
+				const rounds = response.rows.map((s) => new Round(s))
+				resolve(rounds)
+			} catch (err) {
+				reject("Rounds not found")
+			}
+		})
+	}
 
   // create rounds
   static async create(user_id, id, topic) {

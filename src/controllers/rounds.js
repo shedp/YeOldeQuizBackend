@@ -9,5 +9,14 @@ async function create(req, res) {
   }
 }
 
-module.exports = { create };
+async function index(req, res){
+    try{
+        const rounds = await Round.all;
+        res.status(200).json(scores);
+    }catch(err){
+        res.status(500).json(err)
+    }
+}
+
+module.exports = { create, index };
 

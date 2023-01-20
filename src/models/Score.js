@@ -61,14 +61,11 @@ module.exports = class Score {
   static create(game_id, round_id, user_id) {
     return new Promise(async (resolve, reject) => {
       try {
-        // console.log(game_id, round_id, user_id)
         let scoreData = await db.query(
           `INSERT INTO scores (game_id, round_id, user_id) VALUES ($1, $2, $3) RETURNING *;`,
           [game_id, round_id, user_id]
         );
-        // console.log(scoreData.rows[0])
         let newScore = new Score(scoreData.rows[0]);
-        // console.log("success")
         resolve(newScore);
       } catch (err) {
         console.log(err);

@@ -27,24 +27,6 @@ class Session {
 		})
 	}
 
-	// static async findById(id) {
-	// 	return new Promise(async (resolve, reject) => {
-	// 		try {
-	// 			let response = await db.query(
-	// 				"SELECT * FROM user_session WHERE session_id = $1",
-	// 				[id]
-	// 			)
-	// 			if (response.rows.length != 1) {
-	// 				throw new Error("Unable to locate session.")
-	// 			}
-	// 			let session = new Session(response.rows[0])
-	// 			resolve(session)
-	// 		} catch (err) {
-	// 			reject("Session not found")
-	// 			console.log(err)
-	// 		}
-	// 	})
-	// }
 
 	static async findBySessionToken(token) {
 		return new Promise(async (resolve, reject) => {

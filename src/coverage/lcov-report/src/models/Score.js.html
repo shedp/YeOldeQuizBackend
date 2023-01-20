@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">47.22% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/36</span>
+                <span class='fraction'>27/36</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/12</span>
+                <span class='fraction'>9/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.51% </span>
+                <span class="strong">81.81% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/33</span>
+                <span class='fraction'>27/33</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -141,18 +141,15 @@
 <a name='L76'></a><a href='#L76'>76</a>
 <a name='L77'></a><a href='#L77'>77</a>
 <a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a>
-<a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a>
-<a name='L82'></a><a href='#L82'>82</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L79'></a><a href='#L79'>79</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -205,17 +202,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -228,12 +222,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const db = require("../db/init");
 &nbsp;
 module.exports = class Score {
-<span class="fstat-no" title="function not covered" >  co</span>nstructor(data) {
-<span class="cstat-no" title="statement not covered" >    this.score_id = data.score_id;</span>
-<span class="cstat-no" title="statement not covered" >    this.score = data.score;</span>
-<span class="cstat-no" title="statement not covered" >    this.round_id = data.round_id;</span>
-<span class="cstat-no" title="statement not covered" >    this.game_id = data.game_id;</span>
-<span class="cstat-no" title="statement not covered" >    this.user_id = data.user_id;</span>
+  constructor(data) {
+    this.score_id = data.score_id;
+    this.score = data.score;
+    this.round_id = data.round_id;
+    this.game_id = data.game_id;
+    this.user_id = data.user_id;
   }
 &nbsp;
   //get all scores
@@ -285,18 +279,15 @@ module.exports = class Score {
 &nbsp;
 &nbsp;
   // create new score
-<span class="fstat-no" title="function not covered" >  st</span>atic create(game_id, round_id, user_id) {
-<span class="cstat-no" title="statement not covered" >    return new Promise(<span class="fstat-no" title="function not covered" >as</span>ync (resolve, reject) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      try {</span>
-        // console.log(game_id, round_id, user_id)
-        let scoreData = <span class="cstat-no" title="statement not covered" >await db.query(</span>
+  static create(game_id, round_id, user_id) {
+    return new Promise(async (resolve, reject) =&gt; {
+      try {
+        let scoreData = await db.query(
           `INSERT INTO scores (game_id, round_id, user_id) VALUES ($1, $2, $3) RETURNING *;`,
           [game_id, round_id, user_id]
         );
-        // console.log(scoreData.rows[0])
-        let newScore = <span class="cstat-no" title="statement not covered" >new Score(scoreData.rows[0]);</span>
-        // console.log("success")
-<span class="cstat-no" title="statement not covered" >        resolve(newScore);</span>
+        let newScore = new Score(scoreData.rows[0]);
+        resolve(newScore);
       } catch (err) {
 <span class="cstat-no" title="statement not covered" >        console.log(err);</span>
 <span class="cstat-no" title="statement not covered" >        reject("Score could not be created");</span>
@@ -313,7 +304,7 @@ module.exports = class Score {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-19T18:21:07.538Z
+                at 2023-01-20T09:23:37.898Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
