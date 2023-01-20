@@ -98,7 +98,9 @@ async function logout(req, res) {
 
 async function update(req, res){
 	try{
-		const user = await User.updateHighScore(req.body.score, req.params.id)
+		const userToken = req.headers["authorization"];
+    const sesh = await Session.findBySessionToken(userToken);
+    const user = await User.updateHighScore(req.body.score, sesh.user_id);
 		res.status(200).json(user)
 	} catch(err){
 		res.status(417).json(err)
