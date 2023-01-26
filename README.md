@@ -70,9 +70,9 @@ Having multiple games running simultaneously will cause some bugs
 
 ## Future Features :timer_clock:
 
-## More testing on the backend, especially with socket events
+### More testing on the backend, especially with socket events
 
-## Display an overall score board
+### Display an overall score board
 
 ### Displaying questions 1 by 1
 
